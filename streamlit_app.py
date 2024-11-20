@@ -9,4 +9,4 @@ if st.button("hi"):
     voice="alloy",
     input="Today is a wonderful day to build something people love!"
     )
-        st.write(response.content)
+        st.audio(response.content)
