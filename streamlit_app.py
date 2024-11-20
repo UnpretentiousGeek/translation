@@ -2,7 +2,7 @@ import streamlit as st
 from openai import OpenAI
 
 
-client = OpenAI(api_key=st.secrets["openai_key"])
+client = OpenAI(api_key=st.secrets['openai_key'])
 audio_value = st.audio_input("Record a voice message")
 
 if audio_value:
