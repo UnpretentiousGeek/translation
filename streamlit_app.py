@@ -1,13 +1,14 @@
 import streamlit as st
-
 from openai import OpenAI
 
 
-client = OpenAI()
+client = OpenAI(api_key=st.secrets["openai_key"])
+audio_value = st.audio_input("Record a voice message")
 
-audio_file= open("/path/to/file/audio.mp3", "rb")
-transcription = client.audio.transcriptions.create(
-  model="whisper-1", 
-  file=audio_file
-)
-print(transcription.text)
+if audio_value:
+
+    transcription = client.audio.transcriptions.create(
+    model="whisper-1", 
+    file=audio_value
+    )
+    st.write(transcription.text)
