@@ -13,7 +13,7 @@ if audio_value:
     file=audio_value,
     response_format="text"
     )
-    st.write(translation.text)
+    st.write(translation)
 
 
 
