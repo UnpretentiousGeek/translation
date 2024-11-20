@@ -44,6 +44,8 @@ if audio_value := st.audio_input("What is up?"):
     )
 
     with st.chat_message("assistant"):
-        response = st.write(stream.choices[0].message.content)
+        reply = st.write(stream.choices[0].message.content)
 
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.audio(response.content)
+
+    st.session_state.messages.append({"role": "assistant", "content": reply})
