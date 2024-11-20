@@ -10,7 +10,8 @@ audio_value = st.audio_input("Record a voice message")
 if audio_value:
     translation = st.session_state.client.audio.transcriptions.create(
     model="whisper-1", 
-    file=audio_value
+    file=audio_value,
+    response_format="text"
     )
     st.write(translation.text)
 
