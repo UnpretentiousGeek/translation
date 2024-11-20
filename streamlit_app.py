@@ -3,12 +3,10 @@ from openai import OpenAI
 
 
 client = OpenAI(api_key=st.secrets['openai_key'])
-audio_value = st.audio_input("Record a voice message")
-
-if audio_value:
-
-    transcription = client.audio.translations.create(
-    model="whisper-1", 
-    file=audio_value
+if st.button("hi"):
+        response = client.audio.speech.create(
+    model="tts-1",
+    voice="alloy",
+    input="Today is a wonderful day to build something people love!"
     )
-    st.write(transcription.text)
+        st.audio(response)
