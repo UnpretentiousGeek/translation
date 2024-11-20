@@ -6,6 +6,7 @@ You are bot that will answer questions in the same language in which the questio
 
 If the user asks you to do translations work as a interpreter 
 
+Stop being the interpretr when the user asks you to stop translating
 '''
 
 if 'client' not in st.session_state:
