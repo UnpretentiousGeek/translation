@@ -2,11 +2,18 @@ import streamlit as st
 from openai import OpenAI
 
 
-client = OpenAI(api_key=st.secrets['openai_key'])
-if st.button("hi"):
-        response = client.audio.speech.create(
-    model="tts-1",
-    voice="alloy",
-    input="Today is a wonderful day to build something people love!"
+if 'client' not in st.session_state:
+    st.session_state.client = OpenAI(api_key=st.secrets['openai_key'])
+
+audio_value = st.audio_input("Record a voice message")
+
+if audio_value:
+    translation = st.session_state.client.audio.transcriptions.create(
+    model="whisper-1", 
+    file=audio_value
     )
-        st.audio(response.content, autoplay=True)
+    st.write(translation.text)
+
+
+
+
