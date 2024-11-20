@@ -7,6 +7,7 @@ if st.button("hi"):
         response = client.audio.speech.create(
     model="tts-1",
     voice="alloy",
-    input="Today is a wonderful day to build something people love!"
+    input="Today is a wonderful day to build something people love!",
+    format = 'wav'
     )
-        st.audio(response, format="audio/mp3")
+        st.audio(response)
