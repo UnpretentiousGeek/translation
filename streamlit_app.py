@@ -76,12 +76,14 @@ for msg in st.session_state.messages:
         else:
             chat_msg = st.chat_message(msg["role"]) 
             chat_msg.write(msg["content"])
-st.session_state.audio_value =  st.audio_input("What is up?")
+audio_value =  st.audio_input("What is up?")
+if audio_value:
+    st.session_state.audio_value = True
 if "audio_value" in st.session_state:
 
     prompt = st.session_state.client.audio.transcriptions.create(
     model="whisper-1", 
-    file=st.session_state.audio_value,
+    file=audio_value,
     response_format="text"
     )
 
