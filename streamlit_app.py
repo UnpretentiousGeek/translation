@@ -125,4 +125,3 @@ if audio_value := st.audio_input("What is up?"):
 
     st.audio(response.content, autoplay=True)
     st.session_state.messages.append({"role": "assistant", "content": stream.choices[0].message.content})
-    del audio_value
