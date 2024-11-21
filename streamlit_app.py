@@ -77,7 +77,8 @@ for msg in st.session_state.messages:
             chat_msg = st.chat_message(msg["role"]) 
             chat_msg.write(msg["content"])
 
-if audio_value := st.audio_input("What is up?"):
+if st.session_state.audio_value := st.audio_input("What is up?"):
+
     prompt = st.session_state.client.audio.transcriptions.create(
     model="whisper-1", 
     file=audio_value,
@@ -124,3 +125,4 @@ if audio_value := st.audio_input("What is up?"):
 
     st.audio(response.content, autoplay=True)
     st.session_state.messages.append({"role": "assistant", "content": stream.choices[0].message.content})
+    del st.session_state["audio_value"]
