@@ -128,4 +128,3 @@ if "audio_value" in st.session_state:
     st.audio(response.content, autoplay=True)
     st.session_state.messages.append({"role": "assistant", "content": stream.choices[0].message.content})
     del st.session_state["audio_value"]
-    st.rerun()
