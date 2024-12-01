@@ -8,9 +8,6 @@ from PIL import Image
 from location_weather import get_location_and_weather
 from streamlit_js_eval import get_geolocation
 
-loc = get_geolocation()
-st.write(loc)
-
 @st.dialog("Get Location")
 def locat():
     if st.checkbox("Get my location"):
@@ -51,7 +48,6 @@ if "latitude" not in st.session_state:
     locat()
 
 else:
-    st.write(st.session_state.latitude)
     system_message = '''
     You are bot that will answer questions in the same language in which the question is asked
 
