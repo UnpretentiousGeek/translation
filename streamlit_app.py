@@ -12,6 +12,8 @@ from streamlit_js_eval import get_geolocation
 def locat():
     if st.checkbox("Get my location"):
         loc = get_geolocation()
+        st.session_state.latitude = loc['coords']['latitude']
+        st.session_state.longitude = loc['coords']['longitude']
         st.rerun()
 
 @st.dialog("Take a Photo")
@@ -43,9 +45,7 @@ def preprocess(picture):
         st.rerun()
 
 if "latitude" not in st.session_state:
-    loc = locat()
-    st.session_state.latitude = loc['coords']['latitude']
-    st.session_state.longitude = loc['coords']['longitude']
+    locat()
 
 else:
 
