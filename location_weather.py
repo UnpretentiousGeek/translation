@@ -6,7 +6,7 @@ import requests
 
 geolocator = Nominatim(user_agent="location_finder")
 
-def get_location_and_weather(latitude, longitude, openai_key, weather_api_key):
+def get_location_and_weather(latitude, longitude, client, weather_api_key):
     """
     Function to find city, state, and country based on user's geolocation and fetch weather data.
     
@@ -18,7 +18,6 @@ def get_location_and_weather(latitude, longitude, openai_key, weather_api_key):
         dict: Weather data and location information.
     """
     geolocator = Nominatim(user_agent="location_finder")
-    client = OpenAI(api_key=openai_key)
 
 
     location = geolocator.reverse((latitude, longitude), language="en")

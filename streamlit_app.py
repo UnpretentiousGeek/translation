@@ -56,11 +56,14 @@ if "latitude" not in st.session_state:
     locat()
 
 else:
-    
 
     if 'client' not in st.session_state:
         st.session_state.client = OpenAI(api_key=st.secrets['openai_key'])
 
+    if "location" not in st.session_state:
+        st.session_state.weather, st.session_state.location = get_location_and_weather(st.session_state.latitude, st.session_state.longitude, st.session_state.client, st.secrets['weather_key'])
+
+    st.write(st.session_state.location)
     if "messages" not in st.session_state:
 
 
