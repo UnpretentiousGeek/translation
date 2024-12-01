@@ -63,7 +63,6 @@ else:
     if "location" not in st.session_state:
         st.session_state.weather, st.session_state.location = get_location_and_weather(st.session_state.latitude, st.session_state.longitude, st.session_state.client, st.secrets['weather_key'])
 
-    st.write(st.session_state.weather)
     if "messages" not in st.session_state:
 
 
@@ -72,7 +71,7 @@ else:
 
         Your default language is english, but if the user asks question in another language answer in that language only 
 
-        If the user asks you to do translations work as a interpreter 
+        If the user asks you to work as a interpreter the start translating 
 
         Stop being the interpretr when the user asks you to stop translating
         '''
@@ -80,6 +79,7 @@ else:
         [{"role": "system", "content": system_message},
         {"role": "assistant", "content": "How can I help you?"}]
 
+    st.sidebar.title(st.session_state.location)
 
     if st.sidebar.button("Camera 📷"):
         cam()
