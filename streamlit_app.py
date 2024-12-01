@@ -11,11 +11,7 @@ from streamlit_js_eval import get_geolocation
 @st.dialog("Get Location")
 def locat():
     if st.checkbox("Get my location"):
-        loc = get_geolocation()
-        if loc:
-            st.session_state.latitude = loc['coords']['latitude']
-            st.session_state.longitude = loc['coords']['longitude']
-            st.rerun()
+        get_coords()
 
 
 @st.dialog("Take a Photo")
@@ -29,6 +25,13 @@ def cam():
 def upl():
     uploaded_file = st.file_uploader("Upload a photo", type=("jpg", "png"))
     preprocess(uploaded_file)
+
+def get_coords():
+    loc = get_geolocation()
+    if loc:
+        st.session_state.latitude = loc['coords']['latitude']
+        st.session_state.longitude = loc['coords']['longitude']
+        st.rerun()
 
 
 def preprocess(picture):
@@ -46,22 +49,30 @@ def preprocess(picture):
         
         st.rerun()
 
+def weather_location():
+    get_location_and_weather(st.session_state.latitude, st.session_state.longitude)
+
 if "latitude" not in st.session_state:
     locat()
 
 else:
-    system_message = '''
-    You are bot that will answer questions in the same language in which the question is asked
-
-    If the user asks you to do translations work as a interpreter 
-
-    Stop being the interpretr when the user asks you to stop translating
-    '''
+    
 
     if 'client' not in st.session_state:
         st.session_state.client = OpenAI(api_key=st.secrets['openai_key'])
 
     if "messages" not in st.session_state:
+
+
+        system_message = '''
+        You are a travel companion bot that takes in user input in audio format and answer in audio as well
+
+        Your default language is english, but if the user asks question in another language answer in that language only 
+
+        If the user asks you to do translations work as a interpreter 
+
+        Stop being the interpretr when the user asks you to stop translating
+        '''
         st.session_state["messages"] = \
         [{"role": "system", "content": system_message},
         {"role": "assistant", "content": "How can I help you?"}]
