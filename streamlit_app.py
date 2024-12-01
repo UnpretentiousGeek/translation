@@ -15,6 +15,7 @@ def locat():
         if loc:
             st.session_state.latitude = loc['coords']['latitude']
             st.session_state.longitude = loc['coords']['longitude']
+            st.rerun()
 
 
 @st.dialog("Take a Photo")
