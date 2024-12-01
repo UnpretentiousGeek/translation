@@ -79,7 +79,7 @@ else:
         [{"role": "system", "content": system_message},
         {"role": "assistant", "content": "How can I help you?"}]
 
-    st.sidebar.title(st.session_state.location)
+    st.sidebar.header(st.session_state.location)
 
     if st.sidebar.button("Camera 📷"):
         cam()
