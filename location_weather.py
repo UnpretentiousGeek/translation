@@ -40,7 +40,7 @@ def get_location_and_weather(latitude, longitude, client, weather_api_key):
     stream = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "system", "content": coor_message},
-                    {"role": "user", "content": formatted_location}]
+                    {"role": "user", "content": location}]
     )
 
     location = stream.choices[0].message.content
