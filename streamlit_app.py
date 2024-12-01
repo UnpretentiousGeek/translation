@@ -12,7 +12,7 @@ from streamlit_js_eval import get_geolocation
 def locat():
     if st.checkbox("Get my location"):
         loc = get_geolocation()
-        return(loc)
+        st.rerun()
 
 @st.dialog("Take a Photo")
 def cam():
