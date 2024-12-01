@@ -67,4 +67,4 @@ def get_location_and_weather(latitude, longitude, client, weather_api_key):
                     "temp_min":temp_min,
                     "temp_max":temp_max,
                     "humidity":humidity}
-    return data['main'], location
+    return data, location
