@@ -63,7 +63,7 @@ else:
     if "location" not in st.session_state:
         st.session_state.weather, st.session_state.location = get_location_and_weather(st.session_state.latitude, st.session_state.longitude, st.session_state.client, st.secrets['weather_key'])
 
-    st.write(st.session_state.location)
+    st.write(st.session_state.weather)
     if "messages" not in st.session_state:
 
 
