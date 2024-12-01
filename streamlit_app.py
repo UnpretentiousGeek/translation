@@ -5,6 +5,14 @@ import os
 import datetime
 from io import BytesIO
 from PIL import Image
+from location_weather import get_location_and_weather
+from streamlit_js_eval import get_geolocation
+
+@st.dialog("Get Location")
+def locat():
+    if st.checkbox("Get my location"):
+        loc = get_geolocation()
+        return(loc)
 
 @st.dialog("Take a Photo")
 def cam():
@@ -34,104 +42,111 @@ def preprocess(picture):
         
         st.rerun()
 
-system_message = '''
-You are bot that will answer questions in the same language in which the question is asked
+if "latitude" not in st.session_state:
+    loc = locat()
+    st.session_state.latitude = loc['coords']['latitude']
+    st.session_state.longitude = loc['coords']['longitude']
 
-If the user asks you to do translations work as a interpreter 
+else:
 
-Stop being the interpretr when the user asks you to stop translating
-'''
+    system_message = '''
+    You are bot that will answer questions in the same language in which the question is asked
 
-if 'client' not in st.session_state:
-    st.session_state.client = OpenAI(api_key=st.secrets['openai_key'])
+    If the user asks you to do translations work as a interpreter 
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = \
-    [{"role": "system", "content": system_message},
-     {"role": "assistant", "content": "How can I help you?"}]
+    Stop being the interpretr when the user asks you to stop translating
+    '''
+
+    if 'client' not in st.session_state:
+        st.session_state.client = OpenAI(api_key=st.secrets['openai_key'])
+
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = \
+        [{"role": "system", "content": system_message},
+        {"role": "assistant", "content": "How can I help you?"}]
 
 
-if st.sidebar.button("Camera 📷"):
-    cam()
+    if st.sidebar.button("Camera 📷"):
+        cam()
 
-if st.sidebar.button("Upload files ⬆️"):
-    upl()
+    if st.sidebar.button("Upload files ⬆️"):
+        upl()
 
-if "show_img" in st.session_state:
-    st.sidebar.image(st.session_state.show_img)
-    if st.sidebar.button("Clear ❌"):
-        del st.session_state["img"]
-        del st.session_state["show_img"]
-        st.rerun()
+    if "show_img" in st.session_state:
+        st.sidebar.image(st.session_state.show_img)
+        if st.sidebar.button("Clear ❌"):
+            del st.session_state["img"]
+            del st.session_state["show_img"]
+            st.rerun()
 
-for msg in st.session_state.messages:
-    if msg["role"] != "system":
-        if isinstance(msg["content"], list) and len(msg["content"]) > 1:
-            if msg["content"][1].get("type") == "image_url":
-                col1, col2 = st.columns([1, 3])
-                img_data = base64.b64decode(msg["content"][1]["image_url"]["url"].split(",")[1])
-                col1.image(img_data)
+    for msg in st.session_state.messages:
+        if msg["role"] != "system":
+            if isinstance(msg["content"], list) and len(msg["content"]) > 1:
+                if msg["content"][1].get("type") == "image_url":
+                    col1, col2 = st.columns([1, 3])
+                    img_data = base64.b64decode(msg["content"][1]["image_url"]["url"].split(",")[1])
+                    col1.image(img_data)
+                    chat_msg = st.chat_message(msg["role"]) 
+                    chat_msg.write(msg["content"][0].get("text"))
+            else:
                 chat_msg = st.chat_message(msg["role"]) 
-                chat_msg.write(msg["content"][0].get("text"))
-        else:
-            chat_msg = st.chat_message(msg["role"]) 
-            chat_msg.write(msg["content"])
+                chat_msg.write(msg["content"])
 
-if audio_value :=  st.audio_input("What is up?"):
-    st.session_state.audio_value = audio_value
+    if audio_value :=  st.audio_input("What is up?"):
+        st.session_state.audio_value = audio_value
 
 
-if "last_audio" not in st.session_state:
-    st.session_state.last_audio = True
+    if "last_audio" not in st.session_state:
+        st.session_state.last_audio = True
 
-if audio_value and st.session_state.last_audio != st.session_state.audio_value:
-    
-    st.session_state.last_audio = audio_value
-
-    prompt = st.session_state.client.audio.transcriptions.create(
-    model="whisper-1", 
-    file=audio_value,
-    response_format="text"
-    )
-
-    if "img" in st.session_state:
-        col1, col2 = st.columns([1, 3])
-        img_data = base64.b64decode(st.session_state.img)
-        col1.image(img_data)
-        with st.chat_message("user"):
-            st.markdown(prompt)
-        st.session_state.messages.append({"role": "user", "content":[
-        {"type": "text", "text": prompt},
-        {
-        "type": "image_url",
-        "image_url": {
-            "url": f"data:image/jpeg;base64,{st.session_state.img}",
-        },
-        },
-    ]})
-        del st.session_state["img"]
-        del st.session_state["show_img"]
+    if audio_value and st.session_state.last_audio != st.session_state.audio_value:
         
+        st.session_state.last_audio = audio_value
 
-    else:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
+        prompt = st.session_state.client.audio.transcriptions.create(
+        model="whisper-1", 
+        file=audio_value,
+        response_format="text"
+        )
 
-    stream = st.session_state.client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=st.session_state.messages
-    )
+        if "img" in st.session_state:
+            col1, col2 = st.columns([1, 3])
+            img_data = base64.b64decode(st.session_state.img)
+            col1.image(img_data)
+            with st.chat_message("user"):
+                st.markdown(prompt)
+            st.session_state.messages.append({"role": "user", "content":[
+            {"type": "text", "text": prompt},
+            {
+            "type": "image_url",
+            "image_url": {
+                "url": f"data:image/jpeg;base64,{st.session_state.img}",
+            },
+            },
+        ]})
+            del st.session_state["img"]
+            del st.session_state["show_img"]
+            
 
-    response = st.session_state.client.audio.speech.create(
-    model="tts-1",
-    voice="alloy",
-    input=stream.choices[0].message.content
-    )
+        else:
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            with st.chat_message("user"):
+                st.markdown(prompt)
 
-    with st.chat_message("assistant"):
-        reply = st.write(stream.choices[0].message.content)
+        stream = st.session_state.client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=st.session_state.messages
+        )
 
-    st.audio(response.content, autoplay=True)
-    st.session_state.messages.append({"role": "assistant", "content": stream.choices[0].message.content})
-    del st.session_state["audio_value"]
+        response = st.session_state.client.audio.speech.create(
+        model="tts-1",
+        voice="alloy",
+        input=stream.choices[0].message.content
+        )
+
+        with st.chat_message("assistant"):
+            reply = st.write(stream.choices[0].message.content)
+
+        st.audio(response.content, autoplay=True)
+        st.session_state.messages.append({"role": "assistant", "content": stream.choices[0].message.content})
+        del st.session_state["audio_value"]
