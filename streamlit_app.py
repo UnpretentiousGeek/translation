@@ -15,7 +15,6 @@ st.write(loc)
 def locat():
     if st.checkbox("Get my location"):
         loc = get_geolocation()
-        st.write(loc)
         st.session_state.latitude = loc['coords']['latitude']
         st.session_state.longitude = loc['coords']['longitude']
         st.rerun()
@@ -52,7 +51,7 @@ if "latitude" not in st.session_state:
     locat()
 
 else:
-
+    st.write(st.session_state.latitude)
     system_message = '''
     You are bot that will answer questions in the same language in which the question is asked
 
