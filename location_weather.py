@@ -47,7 +47,12 @@ def get_location_and_weather(latitude, longitude, client):
     if "," in location:
         formatted_location = location.split(",")[0].strip()
 
+    data = get_weather(formatted_location)
         
+    
+    return data, location
+
+def get_weather(formatted_location):
     urlbase = "https://api.openweathermap.org/data/2.5/"
     urlweather = f"weather?q={formatted_location}&appid={st.secrets['weather_key']}"
     url = urlbase + urlweather
@@ -55,16 +60,4 @@ def get_location_and_weather(latitude, longitude, client):
     response = requests.get(url)
     data = response.json()
 
-    if data and data.get("main"):
-        temp = data['main']['temp']
-        feels_like = data['main']['feels_like']
-        temp_min = data['main']['temp_min']
-        temp_max = data['main']['temp_max']
-        humidity = data['main']['humidity']
-
-    weather_data = {"Temperature":temp,
-                    "Feels_like":feels_like,
-                    "temp_min":temp_min,
-                    "temp_max":temp_max,
-                    "humidity":humidity}
-    return data, location
+    return data
