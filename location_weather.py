@@ -6,7 +6,7 @@ import requests
 
 geolocator = Nominatim(user_agent="location_finder")
 
-def get_location_and_weather(latitude, longitude, client, weather_api_key):
+def get_location_and_weather(latitude, longitude, client):
     """
     Function to find city, state, and country based on user's geolocation and fetch weather data.
     
@@ -49,7 +49,7 @@ def get_location_and_weather(latitude, longitude, client, weather_api_key):
 
         
     urlbase = "https://api.openweathermap.org/data/2.5/"
-    urlweather = f"weather?q={formatted_location}&appid={weather_api_key}"
+    urlweather = f"weather?q={formatted_location}&appid={st.secrets['weather_key']}"
     url = urlbase + urlweather
 
     response = requests.get(url)
