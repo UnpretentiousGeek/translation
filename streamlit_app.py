@@ -197,7 +197,7 @@ else:
             tool_function_name = tool_calls[0].function.name
             arguments = json.loads(tool_calls[0].function.arguments)
 
-            if tool_function_name == 'get_current_weather':
+            if tool_function_name == 'get_weather':
                 results = get_weather(arguments['location'])
                 raw_data_prompt = f"""
                     Here is the raw weather data for {results}
