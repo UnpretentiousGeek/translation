@@ -8,6 +8,7 @@ from PIL import Image
 from location_weather import get_location_and_weather, get_weather
 from streamlit_js_eval import get_geolocation
 from datetime import datetime
+import json
 
 @st.dialog("Get Location")
 def locat():
@@ -52,6 +53,27 @@ def preprocess(picture):
 
 def weather_location():
     get_location_and_weather(st.session_state.latitude, st.session_state.longitude)
+
+
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get the current weather",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The city and state, e.g. San Francisco, CA",
+                    },
+                },
+                "required": ["location"],
+            },
+        }
+    }]
 
 if "latitude" not in st.session_state:
     locat()
@@ -162,8 +184,33 @@ else:
 
         stream = st.session_state.client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=st.session_state.messages
+            messages=st.session_state.messages,
+            tools= tools, 
+        tool_choice="auto",
         )
+
+
+        tool_calls = stream.choices[0].message.tool_calls
+
+        if tool_calls:
+            tool_call_id = tool_calls[0].id
+            tool_function_name = tool_calls[0].function.name
+            arguments = json.loads(tool_calls[0].function.arguments)
+
+            if tool_function_name == 'get_current_weather':
+                results = get_weather(arguments['location'])
+                raw_data_prompt = f"""
+                    Here is the raw weather data for {results}
+                    
+                    Please format this message as response for chatbot with user promt {prompt}
+                    """
+                st.session_state.messages.append({"role": "system", "content": raw_data_prompt})
+                stream = st.session_state.client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=st.session_state.messages
+                )
+                
+
 
         response = st.session_state.client.audio.speech.create(
         model="tts-1",
