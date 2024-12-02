@@ -5,7 +5,7 @@ import os
 import datetime
 from io import BytesIO
 from PIL import Image
-from location_weather import get_location_and_weather
+from location_weather import get_location_and_weather, get_weather
 from streamlit_js_eval import get_geolocation
 
 @st.dialog("Get Location")
@@ -69,9 +69,9 @@ else:
         system_message = '''
         You are a travel companion bot that takes in user input in audio format and answer in audio as well
 
-        Your default language is english, but if the user asks question in another language answer in that language only 
+        Your default language is english, user might ask questions in any other language, reply in english
 
-        If the user asks you to work as a interpreter the start translating 
+        Until the user asks you to work as a interpreter then start translating from one language to another, ask user for the both the languagaes to interpret if not provided
 
         Stop being the interpretr when the user asks you to stop translating
         '''
