@@ -7,6 +7,7 @@ from io import BytesIO
 from PIL import Image
 from location_weather import get_location_and_weather, get_weather
 from streamlit_js_eval import get_geolocation
+from datetime import datetime
 
 @st.dialog("Get Location")
 def locat():
@@ -66,7 +67,7 @@ else:
     if "messages" not in st.session_state:
 
 
-        system_message = '''
+        system_message = f'''
         You are a travel companion bot that takes in user input in audio format and answer in audio as well
 
         Your default language is english, user might ask questions in any other language, reply in english
@@ -75,10 +76,19 @@ else:
         translate any hindi input to english and any english input to hindi, ask user for the both the languagaes to interpret if not provided
         Only provide translated text and nothing else, Keep interpreting until the user asks you to stop translating
 
+        The user is in {st.session_state.location} with {st.session_state.weather} weather, and date {datetime.now()},the user can be traveling in this city or to some other place, make sure you confirm this.
+        And start the conversation with something like "hi, it seems like we are in this location, so are we travelling to some other city or this city" to confirm the travelling location
         '''
+
+
+        stream = st.session_state.client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "system", "content": system_message}])
+
+
         st.session_state["messages"] = \
         [{"role": "system", "content": system_message},
-        {"role": "assistant", "content": "How can I help you?"}]
+        {"role": "assistant", "content": stream.choices[0].message.content}]
 
     st.sidebar.title(st.session_state.location)
     st.sidebar.image("https://openweathermap.org/img/wn/" + st.session_state.weather["weather"][0]["icon"] + "@2x.png")
