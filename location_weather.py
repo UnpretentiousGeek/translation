@@ -44,15 +44,16 @@ def get_location_and_weather(latitude, longitude, client):
     )
 
     location = stream.choices[0].message.content
-    if "," in location:
-        formatted_location = location.split(",")[0].strip()
 
-    data = get_weather(formatted_location)
+
+    data = get_weather(location)
         
     
     return data, location
 
 def get_weather(formatted_location):
+    if "," in formatted_location:
+        formatted_location = formatted_location.split(",")[0].strip()
     urlbase = "https://api.openweathermap.org/data/2.5/"
     urlweather = f"weather?q={formatted_location}&appid={st.secrets['weather_key']}"
     url = urlbase + urlweather
