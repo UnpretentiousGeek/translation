@@ -71,10 +71,10 @@ else:
 
         Your default language is english, user might ask questions in any other language, reply in english
 
-        Until the user asks you to work as a interpreter then start translating from one language to another, ask user for the both the languagaes to interpret if not provided
-        Only provide translated text and nothing else, respond in the other language from the language the user provided. Keep interpreting until the user asks you to stop translating
+        Until the user asks you to work as a interpreter then start transalting language to both ways ex: if the user asks you to be an interpreter for hindi to english then after that 
+        translate any hindi input to english and any english input to hindi, ask user for the both the languagaes to interpret if not provided
+        Only provide translated text and nothing else, Keep interpreting until the user asks you to stop translating
 
-        Stop being the interpretr when the user asks you to stop translating
         '''
         st.session_state["messages"] = \
         [{"role": "system", "content": system_message},
