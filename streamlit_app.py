@@ -202,7 +202,7 @@ else:
                 raw_data_prompt = f"""
                     Here is the raw weather data for {results}
                     
-                    Please format this message as response for chatbot with user promt {prompt}
+                    Please format this message as response for chatbot with user prompt {prompt}
                     """
                 st.session_state.messages.append({"role": "system", "content": raw_data_prompt})
                 stream = st.session_state.client.chat.completions.create(
