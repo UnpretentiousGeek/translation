@@ -99,7 +99,11 @@ else:
         Only provide translated text and nothing else, Keep interpreting until the user asks you to stop translating
 
         The user is in {st.session_state.location} with {st.session_state.weather} weather, and date {datetime.now()},the user can be traveling in this city or to some other place, make sure you confirm this.
-        And start the conversation with something like "hi, it seems like we are in this location, so are we travelling to some other city or this city" to confirm the travelling location
+        And start the conversation with something like "hi, it seems like we are in this location, so are we travelling to some other city or this city" not exactly this somegthing similar to confirm the travelling location
+        
+        Once the travelling location is confirmed, Start the converstaion with something similar to "Alright, so we are travelling to this location", get the weather of that location, make recommendations to user to what to wear based on weather,
+        ask user if they would like to know about Shopping Places, Tourist Attraction, Upcoming events, etc.
+        
         '''
 
 
