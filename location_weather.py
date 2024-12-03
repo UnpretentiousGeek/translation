@@ -33,8 +33,8 @@ def get_location_and_weather(latitude, longitude, client):
     coor_message = f"""
     This is the location {location}, format it in a way so that it is accepted by 
     openweathermap API example if the location is "City of Syracuse,New York, United States"
-    format it as "Syracuse, NY", if just "New York,New York,United States" format it as
-    "New York City, NY" and only return the formatted location nothing else.
+    format it as "Syracuse, US", if just "New York,New York,United States" format it as
+    "New York City, US" and only return the formatted location nothing else.
     """
 
     stream = client.chat.completions.create(
