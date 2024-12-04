@@ -120,6 +120,11 @@ else:
 
     st.sidebar.title(st.session_state.location)
     st.sidebar.image("https://openweathermap.org/img/wn/" + st.session_state.weather["weather"][0]["icon"] + "@2x.png")
+
+    if st.sidebar.button("Reset Location 🔃"):
+        del st.session_state["location"]
+        get_coords()
+        
     
 
     if st.sidebar.button("Camera 📷"):
