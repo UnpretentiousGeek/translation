@@ -94,7 +94,7 @@ def scan():
 
 
 def get_relevent_docs(query):
-    response = openai_client.embeddings.create(
+    response = st.session_state.client.embeddings.create(
     input=prompt,
     model="text-embedding-3-small")
 
