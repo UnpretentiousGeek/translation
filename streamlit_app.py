@@ -9,6 +9,8 @@ from location_weather import get_location_and_weather, get_weather
 from streamlit_js_eval import get_geolocation
 from datetime import datetime
 import json
+import folium
+from streamlit_folium import folium_static
 
 @st.dialog("Get Location")
 def locat():
@@ -118,6 +120,11 @@ else:
 
     st.sidebar.title(st.session_state.location)
     st.sidebar.image("https://openweathermap.org/img/wn/" + st.session_state.weather["weather"][0]["icon"] + "@2x.png")
+    location = (st.session_state.latitude, st.session_state.latitude)
+    m = folium.Map(location=location, zoom_start=13)
+    folium.Marker(location, popup="Your Location").add_to(m)
+    with st.sidebar:
+        folium_static(m)
 
     if st.sidebar.button("Camera 📷"):
         cam()

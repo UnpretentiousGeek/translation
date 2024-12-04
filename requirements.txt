@@ -2,3 +2,5 @@ streamlit
 openai
 streamlit_js_eval
 geopy
+folium
+streamlit_folium
