@@ -140,7 +140,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "get_city_attractions_info",
-            "description": "Takes a user-provided query and returns relevant information about tourist attractions, shopping places, and upcoming events in a specific city based on the query.",
+            "description": "Takes a user-provided query and returns relevant information about tourist attractions, shopping places, and upcoming events in a specific city based on the query. Only has data on Cities : Barcelona, Kyoto, New York City, Paris, Sydney, Tokyo",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -180,6 +180,8 @@ else:
 
         Your default language is english, user might ask questions in any other language, reply in english
 
+        If the user asks you to reply in a certain language reply only in that language until the user asks to stop.
+
         Until the user asks you to work as a interpreter then start transalting language to both ways ex: if the user asks you to be an interpreter for hindi to english then after that 
         translate any hindi input to english and any english input to hindi, ask user for the both the languagaes to interpret if not provided
         Only provide translated text and nothing else, Keep interpreting until the user asks you to stop translating
@@ -187,10 +189,13 @@ else:
         The user is in {st.session_state.location} with {st.session_state.weather} weather, and date {datetime.now()},the user can be traveling in this city or to some other place, make sure you confirm this.
         And start the conversation with greeting the user, introducing yourself, tell the user in which city we are in asking the user if we are travelling to any other city or travelling the city the user is in to confirm the travelling location
         
-        Once the travelling location is confirmed, Start the converstaion with confirming where we are travelling, get the weather of that location, make recommendations appropriate for that weather 
-        ask user if they would like to know about Shopping Places, Tourist Attraction, Upcoming events, etc.
+        Once the travelling location is confirmed, Start the converstaion with confirming where we are travelling, briefly tell the weather of thatlocation, make recommendations appropriate for that weather 
+        ask user if they would like to know about Shopping Places, Tourist Attraction, Upcoming events, Things to do, cultural Insights etc.
         
-        If the user provides an images provide a description
+        If the user provides an images and the image has text content then describe the image and translates the contents to english, if not in english and user doesn't specify the goal language
+        If the image has no text content just describe the image.
+
+
         '''
 
 
