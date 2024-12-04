@@ -93,7 +93,7 @@ def scan():
         add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.client)
 
 
-def get_relevent_docs(query):
+def get_city_attractions_info(query):
     response = st.session_state.client.embeddings.create(
     input=query,
     model="text-embedding-3-small")
