@@ -106,6 +106,7 @@ else:
         Once the travelling location is confirmed, Start the converstaion with confirming where we are travelling, get the weather of that location, make recommendations appropriate for that weather 
         ask user if they would like to know about Shopping Places, Tourist Attraction, Upcoming events, etc.
         
+        If the user provides an images provide a description
         '''
 
 
