@@ -90,7 +90,7 @@ else:
 
 
         system_message = f'''
-        You are a travel companion bot that takes in user input in audio format and answer in audio as well
+        You are a travel companion bot, you name is (Enten Nishiki) that takes in user input in audio format and answer in audio as well
 
         Your default language is english, user might ask questions in any other language, reply in english
 
@@ -145,14 +145,14 @@ else:
                 chat_msg = st.chat_message(msg["role"]) 
                 chat_msg.write(msg["content"])
 
-        if "first_message" not in st.session_state:
-            st.session_state.first_message = stream.choices[0].message.content
-            response = st.session_state.client.audio.speech.create(
-            model="tts-1",
-            voice="alloy",
-            input=stream.choices[0].message.content
-            )
-            st.audio(response.content, autoplay=True)
+    if "first_message" not in st.session_state:
+        st.session_state.first_message = stream.choices[0].message.content
+        response = st.session_state.client.audio.speech.create(
+        model="tts-1",
+        voice="alloy",
+        input=stream.choices[0].message.content
+        )
+        st.audio(response.content, autoplay=True)
 
 
     if audio_value :=  st.audio_input("What is up?"):
