@@ -323,8 +323,8 @@ else:
                     messages=st.session_state.messages
                 )
 
-            if tool_function_name == 'get_relevent_docs':
-                results = get_relevent_docs(arguments['query'])
+            if tool_function_name == 'get_city_attractions_info':
+                results = get_city_attractions_info(arguments['query'])
 
                 text = "\n\n".join(results)
 
