@@ -124,7 +124,7 @@ else:
     m = folium.Map(location=location, zoom_start=13)
     folium.Marker(location, popup="Your Location").add_to(m)
     with st.sidebar:
-        folium_static(m, width=500, height=500)
+        folium_static(m, width=100, height=100)
 
     if st.sidebar.button("Camera 📷"):
         cam()
