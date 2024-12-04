@@ -43,4 +43,4 @@ def currency_converter_app(EXCHANGE_RATE_API_KEY):
         st.write(f"*{amount} {from_currency} = {converted_amount} {to_currency}*")
 
 EXCHANGE_RATE_API_KEY = "1ece9901af5b5b236916f82c"  # Replace with your actual API key
-currency_converter_app(st.secrets['EXCHANGE_RATE_API_KEY '])
+currency_converter_app(st.secrets['EXCHANGE_RATE_API_KEY'])
