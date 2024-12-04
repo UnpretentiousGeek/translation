@@ -135,6 +135,23 @@ tools = [
                 "required": ["location"],
             },
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_city_attractions_info",
+            "description": "Takes a user-provided query and returns relevant information about tourist attractions, shopping places, and upcoming events in a specific city based on the query.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The user-provided query for which relevant city information will be retrieved. E.g., 'What are the top tourist attractions in Paris?' or 'Where can I go shopping in Tokyo?' or 'Are there any events happening in London this weekend?'"
+                    }
+                },
+                "required": ["query"]
+            }
+        }
     }]
 
 if "latitude" not in st.session_state:
@@ -305,6 +322,24 @@ else:
                     model="gpt-4o-mini",
                     messages=st.session_state.messages
                 )
+
+            if tool_function_name == 'get_relevent_docs':
+                results = get_relevent_docs(arguments['query'])
+
+                text = "\n\n".join(results)
+
+                system_message = f"""
+                    Here is the raw city data {results}
+                    
+                    Please format this message as response for chatbot with user prompt {prompt}
+                    """
+
+                st.session_state.messages.append({"role": "system", "content": system_message})
+
+                stream = st.session_state.client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=st.session_state.messages,)
+
                 
 
 
