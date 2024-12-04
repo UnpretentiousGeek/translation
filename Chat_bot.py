@@ -95,7 +95,7 @@ def scan():
 
 def get_relevent_docs(query):
     response = st.session_state.client.embeddings.create(
-    input=prompt,
+    input=query,
     model="text-embedding-3-small")
 
     query_embedding = response.data[0].embedding
