@@ -131,7 +131,7 @@ else:
     if st.sidebar.button("Camera 📷"):
         cam()
 
-    if st.sidebar.button("Upload files ⬆️"):
+    if st.sidebar.button("Upload files ⬆📁"):
         upl()
 
     location = (st.session_state.latitude, st.session_state.longitude)
