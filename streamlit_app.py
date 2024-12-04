@@ -120,7 +120,7 @@ else:
 
     st.sidebar.title(st.session_state.location)
     st.sidebar.image("https://openweathermap.org/img/wn/" + st.session_state.weather["weather"][0]["icon"] + "@2x.png")
-    location = (st.session_state.latitude, st.session_state.latitude)
+    location = (st.session_state.latitude, st.session_state.longitude)
     m = folium.Map(location=location, zoom_start=13)
     folium.Marker(location, popup="Your Location").add_to(m)
     with st.sidebar:
