@@ -11,6 +11,14 @@ from datetime import datetime
 import json
 import folium
 from streamlit_folium import folium_static
+import PyPDF2
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3']= sys.modules.pop('pysqlite3')
+
+import chromadb
+chroma_client = chromadb.PersistentClient(path="~/embeddings")
 
 @st.dialog("Get Location")
 def locat():
@@ -56,6 +64,58 @@ def preprocess(picture):
 def weather_location():
     get_location_and_weather(st.session_state.latitude, st.session_state.longitude)
 
+def add_coll(collection, text, filename, client):
+    response = client.embeddings.create(
+        input = text,
+        model = "text-embedding-3-small"
+    )
+    embedding = response.data[0].embedding
+
+    collection.add(
+        documents=[text],
+        ids = [filename],
+        embeddings = embedding
+    )
+
+def read_pdf(file):
+    reader = PyPDF2.PdfReader(file)
+    text = ''
+    for page_num in range(len(reader.pages)):
+        page = reader.pages[page_num]
+        text += page.extract_text()
+    return text
+
+def scan():
+    pdf_texts = {}
+    for file_name in os.listdir('pdfs'):
+        file_path = os.path.join('pdfs', file_name)
+        pdf_texts[file_name] = read_pdf(file_path)
+        add_coll(st.session_state.Lab4_vectorDB, pdf_texts[file_name], file_name, st.session_state.openai_client)
+
+
+def get_relevent_docs(query):
+    response = openai_client.embeddings.create(
+    input=prompt,
+    model="text-embedding-3-small")
+
+    query_embedding = response.data[0].embedding
+
+    results = st.session_state.Lab4_vectorDB.query(
+                query_embeddings=[query_embedding],
+                n_results=3
+            )
+
+    if results and len(results['documents'][0]) > 0:
+        texts = []
+        for i in range(len(results['documents'][0])):
+            doc_id = results['ids'][0][i]
+            relevant_text = results['documents'][0][i]
+            texts.append(relevant_text)
+    else:
+        texts = [" "]
+
+    return texts
+
 
 
 tools = [
@@ -87,6 +147,13 @@ else:
 
     if "location" not in st.session_state:
         st.session_state.weather, st.session_state.location = get_location_and_weather(st.session_state.latitude, st.session_state.longitude, st.session_state.client)
+
+    if 'Lab4_vectorDB' not in st.session_state:
+        st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
+
+        if 'scanned' not in st.session_state:
+            scan()
+            st.session_state.scanned = True
 
     if "messages" not in st.session_state:
 
