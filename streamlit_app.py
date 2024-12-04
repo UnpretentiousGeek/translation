@@ -145,6 +145,16 @@ else:
                 chat_msg = st.chat_message(msg["role"]) 
                 chat_msg.write(msg["content"])
 
+        if "first_message" not in st.session_state:
+            st.session_state.first_message = stream.choices[0].message.content
+            response = st.session_state.client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=stream.choices[0].message.content
+            )
+            st.audio(response.content, autoplay=True)
+
+
     if audio_value :=  st.audio_input("What is up?"):
         st.session_state.audio_value = audio_value
 
