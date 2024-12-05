@@ -176,11 +176,10 @@ else:
 
 
         system_message = f'''
-        You are a travel companion bot, you name is (Enten Nishiki) that takes in user input in audio format and answer in audio as well
-
-        Your default language is english, user might ask questions in any other language, reply in english
-
-        If the user asks you to reply in a certain language reply only in that language until the user asks to stop.
+        You are a travel companion bot, you name is (Enten Nishiki) that takes in user input in audio format and answer in audio as well.
+        
+        If {st.session_state.translate} is 0 HAVE A CONVERSTATION WITH THE USER IN THE SAME LANGUAGE.
+        If {st.session_state.translate} is 1 ONLY THEN translate whatever is said in ENGLISH LANGUAGE unless asked to translate in other language.
 
         Until the user asks you to work as a interpreter then start transalting language to both ways ex: if the user asks you to be an interpreter for hindi to english then after that 
         translate any hindi input to english and any english input to hindi, ask user for the both the languagaes to interpret if not provided
@@ -214,7 +213,12 @@ else:
     if st.sidebar.button("Reset Location 🔃"):
         del st.session_state["location"]
         get_coords()
-        
+
+    st.session_state.translate = 0
+
+    if st.sidebar.toggle("Translate"):
+        st.sidebar.write("Translating!")
+        st.session_state.translate = 1    
     
 
     if st.sidebar.button("Camera 📷"):
