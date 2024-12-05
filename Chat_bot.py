@@ -158,6 +158,7 @@ if "latitude" not in st.session_state:
     locat()
 
 else:
+    st.session_state.translate = 0
 
     if 'client' not in st.session_state:
         st.session_state.client = OpenAI(api_key=st.secrets['openai_key'])
@@ -214,7 +215,7 @@ else:
         del st.session_state["location"]
         get_coords()
 
-    st.session_state.translate = 0
+    
 
     if st.sidebar.toggle("Translate"):
         st.sidebar.write("Translating!")
