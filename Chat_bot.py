@@ -229,6 +229,8 @@ else:
     with st.sidebar:
         folium_static(m, width=250, height=250)
 
+    st.sidebar.write(st.session_state.weather)
+
     if "show_img" in st.session_state:
         st.sidebar.image(st.session_state.show_img)
         if st.sidebar.button("Clear ❌"):
