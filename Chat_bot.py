@@ -123,7 +123,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "get_weather",
-            "description": "Get the current weather",
+            "description": "Get the current weather and local time",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -163,7 +163,7 @@ else:
         st.session_state.client = OpenAI(api_key=st.secrets['openai_key'])
 
     if "location" not in st.session_state:
-        st.session_state.weather, st.session_state.location = get_location_and_weather(st.session_state.latitude, st.session_state.longitude, st.session_state.client)
+        st.session_state.weather, st.session_state.local_time, st.session_state.location = get_location_and_weather(st.session_state.latitude, st.session_state.longitude, st.session_state.client)
 
     if 'Lab4_vectorDB' not in st.session_state:
         st.session_state.Lab4_vectorDB = chroma_client.get_or_create_collection('Lab4Collection')
@@ -186,7 +186,7 @@ else:
         translate any hindi input to english and any english input to hindi, ask user for the both the languagaes to interpret if not provided
         Only provide translated text and nothing else, Keep interpreting until the user asks you to stop translating
 
-        The user is in {st.session_state.location} with {st.session_state.weather} weather, and date {datetime.now()},the user can be traveling in this city or to some other place, make sure you confirm this.
+        The user is in {st.session_state.location} with {st.session_state.weather} weather, and date {st.session_state.local_time},the user can be traveling in this city or to some other place, make sure you confirm this.
         And start the conversation with greeting the user, introducing yourself, tell the user in which city we are in asking the user if we are travelling to any other city or travelling the city the user is in to confirm the travelling location
         
         Once the travelling location is confirmed, Start the converstaion with confirming where we are travelling, briefly tell the weather of thatlocation, make recommendations appropriate for that weather 

@@ -3,6 +3,7 @@ import json
 from openai import OpenAI
 from geopy.geocoders import Nominatim
 import requests
+from datetime import datetime
 
 geolocator = Nominatim(user_agent="location_finder")
 
@@ -46,10 +47,10 @@ def get_location_and_weather(latitude, longitude, client):
     location = stream.choices[0].message.content
 
 
-    data = get_weather(location)
+    data, local_time = get_weather(location)
         
     
-    return data, location
+    return data, local_time, location
 
 def get_weather(formatted_location):
     
@@ -60,4 +61,9 @@ def get_weather(formatted_location):
     response = requests.get(url)
     data = response.json()
 
-    return data
+    utc_timestamp = data['dt']
+    offset_seconds = data['timezone']
+    local_timestamp = utc_timestamp + offset_seconds
+    local_time = datetime.fromtimestamp(local_timestamp)
+
+    return data, local_time
