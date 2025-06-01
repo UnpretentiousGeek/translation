@@ -13,6 +13,8 @@ import folium
 from streamlit_folium import folium_static
 import PyPDF2
 
+st.title("Chatbot")
+
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3']= sys.modules.pop('pysqlite3')
