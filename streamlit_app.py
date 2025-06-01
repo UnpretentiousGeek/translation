@@ -1,5 +1,6 @@
 import streamlit as st
 
+Description = st.Page("Description.py", title = "📃 Description")
 Chat_bot = st.Page("Chat_bot.py", title = "🤖 Chat")
 Currency = st.Page("Currency.py", title = "💵 Currency Converter")
 
