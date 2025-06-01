@@ -10,7 +10,7 @@ st.markdown("""
 <div style="max-width:480px"><div style="position:relative;padding-bottom:56.25%"><iframe id="kmsembed-1_2wgovohe" width="480" height="270" src="https://video.syr.edu/embed/secure/iframe/entryId/1_2wgovohe/uiConfId/45992161/st/0" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Travel Chatbot" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"></iframe></div></div>
 """, unsafe_allow_html=True)
 
-
+st.write("\n")
 with st.expander("🔍 What It Does (AKA Why It’s Your New Favorite Travel Buddy)", expanded=True):
     st.markdown("""
 - 🗺 **Explore Like a Local**: Personalized itineraries + hot tourist spot recs = less Googling, more vibing.  
