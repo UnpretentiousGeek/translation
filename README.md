@@ -1,4 +1,5 @@
 # Travel Companion Chatbot
+Try the app [here](https://blank-app-ghcfc5bbxk.streamlit.app/Chat_bot)
 
 The chatbot was designed to assist travelers in navigating unfamiliar environments, particularly in regions with language barriers. It addressed four key challenges:
 
