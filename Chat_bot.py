@@ -260,7 +260,7 @@ else:
         st.audio(response.content, autoplay=True)
 
 
-    if audio_value :=  st.audio_input("What is up?"):
+    if audio_value :=  st.audio_input("Click here and start talking, click again when you are done"):
         st.session_state.audio_value = audio_value
 
 
